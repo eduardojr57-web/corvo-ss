@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Transmitir • Corvo SS</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="page" style="max-width:560px;">
+    <div class="topbar">
+      <div class="brand">🐦‍⬛ Corvo SS</div>
+      <div style="font-size:0.9rem;color:var(--text-muted);">Transmissor</div>
+    </div>
+
+    <div id="announcementArea"></div>
+
+    <div class="panel">
+      <div class="status-bar" id="statusBar">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Aguardando para transmitir...</span>
+      </div>
+
+      <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:12px;">
+        Ao clicar em <strong>Compartilhar tela</strong>, o navegador pedirá permissão.
+        Sua tela será enviada apenas para o administrador e para os convidados da sessão.
+        Você <strong>não</strong> verá as telas de outros transmissores.
+      </p>
+
+      <button class="btn btn-accent big-action" id="shareBtn" onclick="toggleShare()">
+        📺 Compartilhar minha tela
+      </button>
+
+      <button class="btn btn-danger big-action hidden" id="stopBtn" onclick="stopShare()">
+        ⏹ Parar transmissão
+      </button>
+
+      <div id="localPreview" class="video-box hidden" style="margin-top:16px;aspect-ratio:16/10;">
+        <video id="localVideo" autoplay playsinline muted></video>
+        <div class="video-label"><span>Sua tela (prévia)</span></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px;">
+      <h3>Gravação automática</h3>
+      <p style="font-size:0.85rem;color:var(--text-muted);">
+        Enquanto você transmite, os últimos 10 minutos ficam salvos temporariamente no seu navegador.
+        Quando o admin solicitar, o arquivo é gerado e enviado automaticamente.
+      </p>
+      <div id="recStatus" style="margin-top:8px;font-size:0.9rem;color:var(--accent);"></div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/transmitter.js"></script>
+</body>
+</html>

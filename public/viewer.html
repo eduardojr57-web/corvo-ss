@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Assistir • Corvo SS</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">🐦‍⬛ Corvo SS</div>
+      <div style="font-size:0.9rem;color:var(--text-muted);">Convidado (somente visualização)</div>
+    </div>
+
+    <div id="announcementArea"></div>
+
+    <div class="panel">
+      <h3>Telas ao vivo</h3>
+      <div class="video-grid" id="videoGrid">
+        <div class="empty-state" id="emptyVideos">
+          <div class="icon">👀</div>
+          <p>Nenhuma tela sendo transmitida no momento.<br>Aguarde os transmissores iniciarem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Admin • Corvo SS</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">🐦‍⬛ Corvo SS <span style="color:var(--text-muted);font-weight:400;font-size:0.9rem;">Admin</span></div>
+      <div class="code-badge" id="codeBadge" title="Clique para copiar">------</div>
+    </div>
+
+    <div id="announcementArea"></div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h3>Enviar aviso</h3>
+        <textarea id="annInput" rows="2" placeholder="Digite o aviso que todos verão..."></textarea>
+        <div class="controls">
+          <button class="btn btn-primary btn-sm" onclick="sendAnnouncement()">Enviar aviso</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Participantes</h3>
+        <div style="margin-bottom:8px;font-size:0.85rem;color:var(--text-muted);">Transmissores (máx 4)</div>
+        <ul class="user-list" id="sharerList"></ul>
+        <div style="margin:12px 0 8px;font-size:0.85rem;color:var(--text-muted);">Convidados (só assistem)</div>
+        <ul class="user-list" id="viewerList"></ul>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px;">
+      <h3>Telas ao vivo</h3>
+      <div class="video-grid" id="videoGrid">
+        <div class="empty-state" id="emptyVideos">
+          <div class="icon">📺</div>
+          <p>Nenhuma tela sendo transmitida ainda.<br>Aguarde os transmissores iniciarem.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px;" id="recordingsPanel">
+      <h3>Gravações recebidas</h3>
+      <ul class="user-list" id="recordingsList">
+        <li style="color:var(--text-muted);font-size:0.9rem;">Nenhuma gravação ainda.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
