@@ -34,6 +34,10 @@
     <div class="card admin-card">
       <h2>Administrador</h2>
       <p>Crie uma nova sessão e compartilhe o código com os participantes.</p>
+      <div class="form-group">
+        <label for="adminPass">Senha do administrador</label>
+        <input type="password" id="adminPass" placeholder="Digite a senha" maxlength="40" />
+      </div>
       <button class="btn btn-accent" onclick="createRoom()">Criar sessão</button>
     </div>
 
@@ -62,19 +66,31 @@
     }
 
     async function createRoom() {
+      const password = document.getElementById('adminPass').value;
+      if (!password) {
+        alert('Digite a senha do administrador.');
+        return;
+      }
       try {
-        const res = await fetch('/api/create-room', { method: 'POST' });
+        const res = await fetch('/api/create-room', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
         const data = await res.json();
+        if (!res.ok) {
+          alert(data.error || 'Senha incorreta.');
+          return;
+        }
         if (data.code) {
           const name = nameInput.value.trim() || 'Admin';
-          window.location.href = `/admin.html?code=${data.code}&name=${encodeURIComponent(name)}`;
+          window.location.href = `/admin.html?code=${data.code}&name=${encodeURIComponent(name)}&token=${data.token}`;
         }
       } catch (e) {
         alert('Erro ao criar sessão. Tente novamente.');
       }
     }
 
-    // Enter key
     codeInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') joinAs('sharer');
     });
