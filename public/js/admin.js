@@ -1,7 +1,8 @@
 const code = getQueryParam('code').toUpperCase();
 const name = getQueryParam('name') || 'Administrador';
+const token = getQueryParam('token');
 
-if (!code) {
+if (!code || !token) {
   window.location.href = '/';
 }
 
@@ -11,11 +12,11 @@ document.getElementById('codeBadge').onclick = () => {
 };
 
 const socket = io();
-const peers = new Map(); // sharerId -> SimplePeer
-const videos = new Map(); // sharerId -> video element
+const peers = new Map();
+const videos = new Map();
 const sharerNames = new Map();
 
-socket.emit('join', { code, role: 'admin', name });
+socket.emit('join', { code, role: 'admin', name, token });
 
 socket.on('error-msg', (msg) => {
   alert(msg);
@@ -69,10 +70,6 @@ socket.on('announcement', (ann) => {
 socket.on('sharer-started', ({ id, name }) => {
   sharerNames.set(id, name);
   updateSharerStatus(id, true);
-  // Initiate connection as the receiver (not initiator, wait for offer from sharer? 
-  // Actually we make the admin the polite peer and let sharer be initiator when they start.
-  // For simplicity: when sharer starts, they will create offers to admin and viewers.
-  // So admin just waits for signal.
 });
 
 socket.on('sharer-stopped', ({ id }) => {
@@ -83,7 +80,6 @@ socket.on('sharer-stopped', ({ id }) => {
 socket.on('signal', async ({ from, data }) => {
   let peer = peers.get(from);
   if (!peer) {
-    // Create peer as non-initiator (receiver)
     peer = new SimplePeer(false);
     peers.set(from, peer);
 
@@ -215,7 +211,6 @@ function showAnnouncement(ann) {
   div.className = 'announcement-box';
   div.innerHTML = `<strong>Aviso:</strong> ${escapeHtml(ann.text)}<div class="time">${formatTime(ann.time)}</div>`;
   area.prepend(div);
-  // Keep only last 3 visible
   while (area.children.length > 3) area.lastChild.remove();
 }
 
@@ -228,9 +223,4 @@ function escapeHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// Keepalive / reconnect
 socket.on('disconnect', () => showToast('Conexão perdida. Tentando reconectar...'));
-socket.on('connect', () => {
-  if (socket.recovered) return;
-  // Re-join if needed
-});
